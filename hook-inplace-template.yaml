@@ -1,0 +1,20 @@
+apiVersion: tkex.tencent.com/v1alpha1
+kind: HookTemplate
+metadata:
+  name: test-inplace
+  namespace: wessonli-test
+spec:
+  args:
+    - name: PodIP
+    - name: PodName
+    - name: PodNamespace
+  metrics:
+  - name: webtest
+    count: 3
+    interval: 20s
+    failureLimit: 1
+    FailureCondition: "asInt(result) == 0"
+    provider:
+      web:
+        url: http://{{ args.PodIP }}:8080/todos/1
+        jsonPath: "{$.id}"

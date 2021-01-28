@@ -1,0 +1,31 @@
+apiVersion: tkex.tencent.com/v1alpha1
+kind: GameStatefulSet
+metadata:
+  name: test-gamestatefulset
+  namespace: wessonli-test
+spec:
+  serviceName: "test"
+  replicas: 3
+  selector:
+    matchLabels:
+      app: gsts-test
+  preDeleteUpdateStrategy:
+    hook:
+      templateName: test
+  preInplaceUpdateStrategy:
+    hook:
+      templateName: test-inplace
+  updateStrategy:
+    type: InplaceUpdate
+    inPlaceUpdateStrategy:
+      gracePeriodSeconds: 30
+  template:
+    metadata:
+      labels:
+        app: gsts-test
+        test: t2222
+    spec:
+      containers:
+      - name: goserver
+        image: goserver:latest
+        imagePullPolicy: IfNotPresent

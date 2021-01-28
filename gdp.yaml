@@ -1,0 +1,33 @@
+apiVersion: tkex.tencent.com/v1alpha1
+kind: GameDeployment
+metadata:
+  name: test-gamedeployment
+  namespace: wessonli-test
+  labels:
+    app: test-gamedeployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: test-gamedeployment
+  template:
+    metadata:
+      labels:
+        app: test-gamedeployment
+    spec:
+      containers:
+      - name: goserver
+        image: goserver:latest
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: DEMO
+          value: "Hello"
+  preDeleteUpdateStrategy:
+    hook:
+      templateName: test
+  preInplaceUpdateStrategy:
+    hook:
+      templateName: test-inplace
+  updateStrategy:
+    type: InplaceUpdate
+    maxUnavailable: 1
