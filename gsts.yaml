@@ -27,5 +27,5 @@ spec:
     spec:
       containers:
       - name: goserver
-        image: goserver:latest
+        image: mirrors.tencent.com/wessonli-test/goserver:maintainer
         imagePullPolicy: IfNotPresent

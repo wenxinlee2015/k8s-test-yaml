@@ -6,7 +6,7 @@ metadata:
   labels:
     app: test-gamedeployment
 spec:
-  replicas: 2
+  replicas: 3
   selector:
     matchLabels:
       app: test-gamedeployment
@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: goserver
-        image: goserver:latest
+        image: mirrors.tencent.com/wessonli-test/goserver:latest
         imagePullPolicy: IfNotPresent
         env:
         - name: DEMO
@@ -25,9 +25,9 @@ spec:
   preDeleteUpdateStrategy:
     hook:
       templateName: test
-  preInplaceUpdateStrategy:
-    hook:
-      templateName: test-inplace
+#  preInplaceUpdateStrategy:
+#    hook:
+#      templateName: test-inplace
   updateStrategy:
     type: InplaceUpdate
     maxUnavailable: 1

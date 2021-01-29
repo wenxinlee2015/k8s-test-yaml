@@ -10,8 +10,8 @@ spec:
     - name: PodNamespace
   metrics:
   - name: webtest
-    count: 3
-    interval: 20s
+    count: 2
+    interval: 10s
     failureLimit: 1
     FailureCondition: "asInt(result) == 0"
     provider:
