@@ -1,12 +1,12 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: centos7-deployment-31
+  name: dp-goserver
   namespace: wessonli-test
 spec:
   selector:
     matchLabels:
-      app: centos7
+      app: goserver
   revisionHistoryLimit: 3
   minReadySeconds: 5
   strategy:
@@ -18,9 +18,9 @@ spec:
   template:
     metadata:
       labels:
-        app: centos7
+        app: goserver
     spec:
       containers:
-      - name: centos7
-        image: nginx
+      - name: goserver
+        image: mirrors.tencent.com/wessonli-test/goserver:latest
         imagePullPolicy: IfNotPresent
