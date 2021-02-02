@@ -11,10 +11,10 @@ spec:
     - name: PodContainer[0]
   metrics:
   - name: webtest
-    count: 3
-    interval: 20s
-    failureLimit: 3
-    consecutiveSuccessLimit: 1
+    count: 30
+    interval: 10s
+    failureLimit: 30
+    consecutiveSuccessLimit: 3
     successCondition: "asInt(result) < 3"
     provider:
       web:

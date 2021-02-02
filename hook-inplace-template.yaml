@@ -10,12 +10,22 @@ spec:
     - name: PodNamespace
   metrics:
   - name: webtest
-    count: 10
+    count: 30
     interval: 10s
-    failureLimit: 1
-    consecutiveSuccessLimit: 2
-    FailureCondition: "asInt(result) == 0"
+    failureLimit: 20
+    successfulLimit: 5
+    failureCondition: "asInt(result) != 1"
     provider:
       web:
         url: http://svc-goserver.wessonli-test:8080/todos/1
+        jsonPath: "{$.id}"
+  - name: webtest2
+    count: 30
+    interval: 10s
+    failureLimit: 20
+    consecutiveSuccessfulLimit: 2
+    failureCondition: "asInt(result) != 2"
+    provider:
+      web:
+        url: http://svc-goserver.wessonli-test:8080/todos/2
         jsonPath: "{$.id}"
