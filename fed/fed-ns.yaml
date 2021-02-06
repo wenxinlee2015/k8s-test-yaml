@@ -1,0 +1,9 @@
+apiVersion: types.kubefed.io/v1beta1
+kind: FederatedNamespace
+metadata:
+  name: test-ns
+  namespace: test-ns
+spec:
+  placement:
+    clusters:
+    - name: member
