@@ -1,0 +1,19 @@
+apiVersion: autoscaling/v2beta2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: goserver-hpa
+  namespace: wessonli-test
+spec:
+  scaleTargetRef:
+    apiVersion: tkex.tencent.com/v1alpha1
+    kind: GameStatefulSet
+    name: test-gamestatefulset
+  minReplicas: 1
+  maxReplicas: 10
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 10
