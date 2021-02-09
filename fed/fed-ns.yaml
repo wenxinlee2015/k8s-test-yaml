@@ -7,3 +7,20 @@ spec:
   placement:
     clusters:
     - name: member
+    - name: member2
+  overrides:
+    - clusterName: member
+      clusterOverrides:
+      - path: "/metadata/labels"
+        op: "add"
+        value:
+          kubefed.io/fed-host: kvm-02
+          kubefed.io/fed-member: member
+    - clusterName: member2
+      clusterOverrides:
+      - path: "/metadata/labels"
+        op: "add"
+        value:
+          kubefed.io/fed-host: kvm-02
+          kubefed.io/fed-member: member2
+

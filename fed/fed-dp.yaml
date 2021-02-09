@@ -8,6 +8,7 @@ spec:
     metadata:
       labels:
         app: nginx
+        kubefed.io/fed-host: kvm-02
     spec:
       replicas: 2
       selector:
@@ -29,3 +30,21 @@ spec:
   placement:
     clusters:
     - name: member
+    - name: member2
+  overrides:
+    - clusterName: member
+      clusterOverrides:
+      - path: "/metadata/labels"
+        op: "add"
+        value: 
+          kubefed.io/fed-member: member
+          app: nginx
+          kubefed.io/fed-host: kvm-02
+    - clusterName: member2
+      clusterOverrides:
+      - path: "/metadata/labels"
+        op: "add"
+        value:
+          kubefed.io/fed-member: member2
+          app: nginx
+          kubefed.io/fed-host: kvm-02
