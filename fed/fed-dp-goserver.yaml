@@ -1,32 +1,28 @@
 apiVersion: types.kubefed.io/v1beta1
 kind: FederatedDeployment
 metadata:
-  name: deploy1
+  name: goserver-hook
   namespace: test-ns
 spec:
   template:
     metadata:
       labels:
-        app: goserver
+        app: goserver-hook
         kubefed.io/fed-host: kvm-02
     spec:
-      replicas: 2
+      replicas: 1
       selector:
         matchLabels:
-          app: goserver
+          app: goserver-hook
       template:
         metadata:
           labels:
-            app: goserver
+            app: goserver-hook
         spec:
           containers:
           - name: goserver
             image: mirrors.tencent.com/wessonli-test/goserver:latest
-            resources:
-              limits:
-                cpu: 500m
-              requests:
-                cpu: 200m
+            imagePullPolicy: IfNotPresent
   placement:
     clusters:
     - name: member
@@ -38,7 +34,7 @@ spec:
         op: "add"
         value: 
           kubefed.io/fed-member: member
-          app: goserver
+          app: goserver-hook
           kubefed.io/fed-host: kvm-02
     - clusterName: member2
       clusterOverrides:
@@ -46,37 +42,5 @@ spec:
         op: "add"
         value:
           kubefed.io/fed-member: member2
-          app: goserver
+          app: goserver-hook
           kubefed.io/fed-host: kvm-02
-#    - clusterName: member
-#      clusterOverrides:
-#      - path: "/spec/template/metadata/labels"
-#        op: "add"
-#        value: 
-#          kubefed.io/fed-host: kvm-02
-#          kubefed.io/fed-member: member
-#          app: goserver
-#    - clusterName: member2
-#      clusterOverrides:
-#      - path: "/spec/template/metadata/labels"
-#        op: "add"
-#        value: 
-#          kubefed.io/fed-host: kvm-02
-#          kubefed.io/fed-member: member2
-#          app: goserver
-#    - clusterName: member
-#      clusterOverrides:
-#      - path: "/spec/selector/matchLabels"
-#        op: "add"
-#        value: 
-#          kubefed.io/fed-host: kvm-02
-#          kubefed.io/fed-member: member
-#          app: goserver
-#    - clusterName: member2
-#      clusterOverrides:
-#      - path: "/spec/selector/matchLabels"
-#        op: "add"
-#        value: 
-#          kubefed.io/fed-host: kvm-02
-#          kubefed.io/fed-member: member2
-#          app: goserver

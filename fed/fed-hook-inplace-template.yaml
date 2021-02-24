@@ -1,0 +1,90 @@
+apiVersion: types.kubefed.io/v1beta1
+kind: FederatedHookTemplate
+metadata:
+  name: test-inplace
+  namespace: test-ns
+spec:
+  template:
+    metadata:
+      labels:
+        app: goserver
+        kubefed.io/fed-host: kvm-02
+    spec:
+      args:
+        - name: PodIP
+        - name: PodName
+        - name: PodNamespace
+      metrics:
+      - name: webtest
+        count: 30
+        interval: 10s
+        failureLimit: 20
+        successfulLimit: 5
+        failureCondition: "asInt(result) != 1"
+        provider:
+          web:
+            url: http://service-goserver-hook.test-ns:8080/todos/1
+            jsonPath: "{$.id}"
+      - name: webtest2
+        count: 30
+        interval: 10s
+        failureLimit: 20
+        consecutiveSuccessfulLimit: 2
+        failureCondition: "asInt(result) != 2"
+        provider:
+          web:
+            url: http://service-goserver-hook.test-ns:8080/todos/2
+            jsonPath: "{$.id}"
+  placement:
+    clusters:
+    - name: member
+    - name: member2
+  overrides:
+    - clusterName: member
+      clusterOverrides:
+      - path: "/metadata/labels"
+        op: "add"
+        value: 
+          kubefed.io/fed-member: member
+          app: goserver
+          kubefed.io/fed-host: kvm-02
+    - clusterName: member2
+      clusterOverrides:
+      - path: "/metadata/labels"
+        op: "add"
+        value:
+          kubefed.io/fed-member: member2
+          app: goserver
+          kubefed.io/fed-host: kvm-02
+#    - clusterName: member
+#      clusterOverrides:
+#      - path: "/spec/template/metadata/labels"
+#        op: "add"
+#        value: 
+#          kubefed.io/fed-host: kvm-02
+#          kubefed.io/fed-member: member
+#          app: goserver
+#    - clusterName: member2
+#      clusterOverrides:
+#      - path: "/spec/template/metadata/labels"
+#        op: "add"
+#        value: 
+#          kubefed.io/fed-host: kvm-02
+#          kubefed.io/fed-member: member2
+#          app: goserver
+#    - clusterName: member
+#      clusterOverrides:
+#      - path: "/spec/selector/matchLabels"
+#        op: "add"
+#        value: 
+#          kubefed.io/fed-host: kvm-02
+#          kubefed.io/fed-member: member
+#          app: goserver
+#    - clusterName: member2
+#      clusterOverrides:
+#      - path: "/spec/selector/matchLabels"
+#        op: "add"
+#        value: 
+#          kubefed.io/fed-host: kvm-02
+#          kubefed.io/fed-member: member2
+#          app: goserver

@@ -1,0 +1,20 @@
+apiVersion: types.kubefed.io/v1beta1
+kind: FederatedService
+metadata:
+  name: service-goserver-hook
+  namespace: test-ns
+spec:
+  template:
+    spec:
+      selector:
+        app: goserver-hook
+      type: NodePort
+      ports:
+        - protocol: TCP
+          port: 8080
+          targetPort: 8080
+          nodePort: 30009
+  placement:
+    clusters:
+    - name: member
+    - name: member2
