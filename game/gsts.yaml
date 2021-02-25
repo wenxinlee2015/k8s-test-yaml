@@ -5,7 +5,7 @@ metadata:
   namespace: wessonli-test
 spec:
   serviceName: "test"
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: gsts-test
@@ -23,14 +23,16 @@ spec:
     metadata:
       labels:
         app: gsts-test
-        test: t2222
     spec:
       containers:
       - name: goserver
-        image: mirrors.tencent.com/wessonli-test/goserver:maintainer
+        image: mirrors.tencent.com/wessonli-test/goserver:latest
         imagePullPolicy: IfNotPresent
         resources:
           requests:
             cpu: 20m
           limits:
             cpu: 20m
+      - name: nginx
+        image: nginx
+        imagePullPolicy: IfNotPresent
