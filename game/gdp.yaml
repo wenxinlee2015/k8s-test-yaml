@@ -6,10 +6,34 @@ metadata:
   labels:
     app: test-gamedeployment
 spec:
-  replicas: 3
+  replicas: 5
   selector:
     matchLabels:
       app: test-gamedeployment
+  scaleStrategy:
+    podsToDelete:
+    - test-gamedeployment-ghrwg
+  minReadySeconds: 5
+  updateStrategy:
+    type: InplaceUpdate
+    partition: 0
+    maxUnavailable: 1
+    maxSurge: 0
+    paused: false
+    inPlaceUpdateStrategy:
+      gracePeriodSeconds: 30
+#    canary:
+#      steps:
+#      - partition: 4
+#        pause: {}
+#        hook:
+#          templateName: test
+  preDeleteUpdateStrategy:
+    hook:
+      templateName: test-inplace
+  preInplaceUpdateStrategy:
+    hook:
+      templateName: test-inplace
   template:
     metadata:
       labels:
@@ -17,17 +41,13 @@ spec:
     spec:
       containers:
       - name: goserver
-        image: mirrors.tencent.com/wessonli-test/goserver:latest
+        image: mirrors.tencent.com/wessonli-test/goserver:maintainer
         imagePullPolicy: IfNotPresent
-        env:
-        - name: DEMO
-          value: "Hello"
-  preDeleteUpdateStrategy:
-    hook:
-      templateName: test
-#  preInplaceUpdateStrategy:
-#    hook:
-#      templateName: test-inplace
-  updateStrategy:
-    type: InplaceUpdate
-    maxUnavailable: 1
+        resources:
+          requests:
+            cpu: 20m
+          limits:
+            cpu: 20m
+      - name: nginx
+        image: nginx
+        imagePullPolicy: IfNotPresent

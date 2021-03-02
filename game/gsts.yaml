@@ -3,26 +3,48 @@ kind: GameStatefulSet
 metadata:
   name: test-gamestatefulset
   namespace: wessonli-test
+  labels:
+    app: test-gamestatefulset
 spec:
   serviceName: "test"
-  replicas: 1
+  replicas: 5
   selector:
     matchLabels:
-      app: gsts-test
+      app: test-gamestatefulset
+  podManagementPolicy: OrderedReady
+  updateStrategy:
+    type: InplaceUpdate
+    rollingUpdate:
+      partition: 0
+    paused: false
+    inPlaceUpdateStrategy:
+      gracePeriodSeconds: 30
+    canary:
+      steps:
+      - hook:
+          templateName: test
+        partition: 3
+        pause: {}
+        partition: 2
+        pause:
+          duration: 60
+      - hook:
+          templateName: test
+        partition: 3
+        pause: {}
+        partition: 2
+        pause:
+          duration: 60
   preDeleteUpdateStrategy:
     hook:
       templateName: test
   preInplaceUpdateStrategy:
     hook:
       templateName: test-inplace
-  updateStrategy:
-    type: InplaceUpdate
-    inPlaceUpdateStrategy:
-      gracePeriodSeconds: 30
   template:
     metadata:
       labels:
-        app: gsts-test
+        app: test-gamestatefulset
     spec:
       containers:
       - name: goserver

@@ -4,10 +4,10 @@ metadata:
   name: test-inplace
   namespace: wessonli-test
 spec:
-  args:
-    - name: PodIP
-    - name: PodName
-    - name: PodNamespace
+#  args:
+#    - name: PodIP
+#    - name: PodName
+#    - name: PodNamespace
   metrics:
   - name: webtest
     count: 30
