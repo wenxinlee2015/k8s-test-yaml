@@ -4340,8 +4340,6 @@ spec:
                                 format: int32
                                 type: integer
                             type: object
-                        required:
-                        - hook
                         type: object
                       type: array
                   required:

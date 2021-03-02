@@ -22,12 +22,14 @@ spec:
     paused: false
     inPlaceUpdateStrategy:
       gracePeriodSeconds: 30
-#    canary:
-#      steps:
-#      - partition: 4
-#        pause: {}
-#        hook:
-#          templateName: test
+    canary:
+      steps:
+      - partition: 4
+      - pause: {}
+      - partition: 2
+      - pause: {}
+      - hook:
+          templateName: test
   preDeleteUpdateStrategy:
     hook:
       templateName: test-inplace
