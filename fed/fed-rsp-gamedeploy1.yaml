@@ -1,0 +1,17 @@
+apiVersion: scheduling.kubefed.io/v1alpha1
+kind: ReplicaSchedulingPreference
+metadata:
+  name: gamedeploy1
+  namespace: test-ns
+spec:
+  targetKind: FederatedGameDeployment
+  totalReplicas: 6
+  clusters:
+    member:
+      minReplicas: 1
+      maxReplicas: 8
+      weight: 2
+    member2:
+      minReplicas: 1
+      maxReplicas: 8
+      weight: 1

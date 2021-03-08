@@ -10,7 +10,7 @@ spec:
         app: goserver
         kubefed.io/fed-host: kvm-02
     spec:
-      replicas: 2
+      replicas: 6
       selector:
         matchLabels:
           app: goserver
