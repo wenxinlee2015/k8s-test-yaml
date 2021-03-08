@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dp-sharedpid-goserver
+  namespace: wessonli-test
+spec:
+  selector:
+    matchLabels:
+      app: goserver
+  revisionHistoryLimit: 3
+  minReadySeconds: 5
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: goserver
+    spec:
+      shareProcessNamespace: true
+      containers:
+      - name: goserver
+        image: mirrors.tencent.com/wessonli-test/goserver:latest
+        imagePullPolicy: IfNotPresent
+      - name: signal-fg-app
+        image: signal-fg-app
+        imagePullPolicy: IfNotPresent
+      - name: nginx
+        image: nginx
+        imagePullPolicy: IfNotPresent
