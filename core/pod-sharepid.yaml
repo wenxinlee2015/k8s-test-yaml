@@ -8,10 +8,5 @@ spec:
   - name: nginx
     image: nginx
   - name: shell
-    image: centos
-    securityContext:
-      capabilities:
-        add:
-        - SYS_PTRACE
-    stdin: true
-    tty: true
+    image: centos:v1
+    imagePullPolicy: IfNotPresent
