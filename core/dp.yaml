@@ -7,7 +7,6 @@ spec:
   selector:
     matchLabels:
       app: goserver
-  revisionHistoryLimit: 3
   minReadySeconds: 5
   strategy:
     type: RollingUpdate
@@ -24,3 +23,18 @@ spec:
       - name: goserver
         image: mirrors.tencent.com/wessonli-test/goserver:latest
         imagePullPolicy: IfNotPresent
+        livenessProbe:
+          failureThreshold: 3
+          httpGet:
+            httpHeaders:
+            - name: content-type
+              value: application/json
+            path: /todos/1
+            port: 8080
+            scheme: HTTP
+          initialDelaySeconds: 15
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 5
+#      nodeSelector:
+#        kubernetes.io/hostname: 9.219.90.10
