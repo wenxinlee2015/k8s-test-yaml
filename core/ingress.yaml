@@ -1,0 +1,16 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: ingress-test
+  namespace: wessonli-test
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /todos/$2
+spec:
+  rules:
+    - host: test.ingress.com
+      http:
+        paths:
+          - path: /t(/|$)(.*)
+            backend:
+              serviceName: svc-goserver
+              servicePort: 8080

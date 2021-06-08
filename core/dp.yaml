@@ -36,5 +36,18 @@ spec:
           periodSeconds: 10
           successThreshold: 1
           timeoutSeconds: 5
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        env:
+        - name: MY_spec.Nodename
+          valueFrom:
+            fieldRef:
+              fieldPath: spec.nodeName
+        - name: BCS_HOST_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.hostIP
 #      nodeSelector:
 #        kubernetes.io/hostname: 9.219.90.10
